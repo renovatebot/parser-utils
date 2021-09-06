@@ -19,9 +19,7 @@
 I have verified these changes via:
 
 - [ ] Code inspection only, or
-- [ ] Newly added/modified unit tests, or
-- [ ] No unit tests but ran on a real repository, or
-- [ ] Both unit tests + ran on a real repository
+- [ ] Newly added/modified unit tests
 
 <!-- Do you have any suggestions about this PR template? Edit it here: https://github.com/renovatebot/parser-utils/blob/main/.github/PULL_REQUEST_TEMPLATE.md -->
 

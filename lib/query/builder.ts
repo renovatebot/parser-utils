@@ -24,13 +24,14 @@ import type {
   OpMatcherHandler,
   OpMatcherOptions,
   OpMatcherValue,
+  QueryBuilder,
   SymMatcherHandler,
   SymMatcherOptions,
   SymMatcherValue,
   TreeOptionsBase,
 } from './types';
 
-abstract class AbstractBuilder<Ctx> {
+abstract class AbstractBuilder<Ctx> implements QueryBuilder<Ctx> {
   abstract build(): Matcher<Ctx>;
 
   sym(): SeqBuilder<Ctx>;

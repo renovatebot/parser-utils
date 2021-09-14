@@ -591,3 +591,10 @@ export function str<Ctx>(
   const opts = coerceStrOptions<Ctx>(arg1, arg2);
   return new StrBuilder<Ctx>(opts);
 }
+
+export function buildRoot<Ctx>(builder: QueryBuilder<Ctx>): Matcher<Ctx> {
+  const matcher = builder.build();
+  return matcher instanceof TreeMatcher && matcher.type === 'root-tree'
+    ? matcher
+    : new TreeMatcher({ matcher, type: 'root-tree' });
+}

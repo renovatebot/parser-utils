@@ -44,7 +44,7 @@ export class TreeMatcher<Ctx> extends AbstractMatcher<Ctx> {
 
   walkToNextSignificantNode(cursor: Cursor): Cursor | undefined {
     const downCursor = cursor.down;
-    if (downCursor && this.walkDepth <= this.maxDepth) {
+    if (downCursor && this.walkDepth < this.maxDepth) {
       this.walkDepth += 1;
       return downCursor;
     }

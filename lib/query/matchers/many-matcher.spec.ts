@@ -26,7 +26,6 @@ describe('query/matchers/many-matcher', () => {
 
       expect(nextCheckpoint).toMatchObject({
         context: ['+', '-', '+'],
-        endOfLevel: true,
       });
     });
 
@@ -39,7 +38,6 @@ describe('query/matchers/many-matcher', () => {
 
       expect(nextCheckpoint).toMatchObject({
         context: ['+', '-', '+', '-', '+'],
-        endOfLevel: true,
       });
     });
 
@@ -51,7 +49,6 @@ describe('query/matchers/many-matcher', () => {
 
       expect(nextCheckpoint).toMatchObject({
         context: ['-', '-'],
-        endOfLevel: true,
       });
     });
   });

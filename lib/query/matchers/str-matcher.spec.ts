@@ -15,6 +15,15 @@ function getInitialCheckpoint(input: string): Checkpoint<Ctx> {
 describe('query/matchers/str-matcher', () => {
   const handler = (ctx: Ctx, node: Token) => [...ctx, node.value];
 
+  it('handles exact match', () => {
+    const input = '"foobar"';
+    const query = q.str<Ctx>('foobar', handler);
+
+    const res = lang.query(input, query, []);
+
+    expect(res).toEqual(['foobar']);
+  });
+
   it('handles simple string', () => {
     const input = '"foo" + "bar" + "baz"';
     const prevCheckpoint = getInitialCheckpoint(input);
@@ -25,18 +34,6 @@ describe('query/matchers/str-matcher', () => {
       .match(prevCheckpoint)?.context;
 
     expect(ctx).toEqual(['foo', 'bar', 'baz']);
-  });
-
-  it('handles exact match', () => {
-    const input = '"foobar"';
-    const prevCheckpoint = getInitialCheckpoint(input);
-
-    const ctx = q
-      .tree({ search: q.str<Ctx>('foobar', handler) })
-      .build()
-      .match(prevCheckpoint)?.context;
-
-    expect(ctx).toEqual(['foobar']);
   });
 
   it('handles regex match', () => {

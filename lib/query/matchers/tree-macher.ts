@@ -9,7 +9,7 @@ import type {
 } from '../types';
 import { coerceHandler } from '../util';
 import { AbstractMatcher } from './abstract-matcher';
-import { skipMinorTokens } from './util';
+import { seekRight, seekToNextSignificantToken } from './util';
 
 interface TreeMatcherOptions<Ctx> extends TreeOptionsBase<Ctx> {
   matcher: Matcher<Ctx> | null;
@@ -42,33 +42,36 @@ export class TreeMatcher<Ctx> extends AbstractMatcher<Ctx> {
     this.postHandler = coerceHandler<Ctx, Tree>(config.postHandler);
   }
 
-  walkToNextNode(cursor: Cursor): Cursor | undefined {
+  walkToNextSignificantNode(cursor: Cursor): Cursor | undefined {
     const downCursor = cursor.down;
     if (downCursor && this.walkDepth <= this.maxDepth) {
-      if (downCursor) {
-        this.walkDepth += 1;
-        return downCursor;
-      }
+      this.walkDepth += 1;
+      return downCursor;
     }
 
-    const rightCursor = skipMinorTokens(cursor.right, this.matcher?.minorToken);
+    let rightCursor = cursor.right;
     if (rightCursor) {
-      return rightCursor;
+      rightCursor = seekToNextSignificantToken(
+        rightCursor,
+        this.matcher?.preventSkipping
+      );
+      if (rightCursor) {
+        return rightCursor;
+      }
     }
 
     let upperCursor: Cursor | undefined =
       this.walkDepth > 0 ? cursor.up : undefined;
     while (upperCursor && this.walkDepth > 0) {
-      if (upperCursor) {
-        if (upperCursor.right) {
-          const upperRightCursor = skipMinorTokens(
-            upperCursor.right,
-            this.matcher?.minorToken
-          );
-          if (upperRightCursor) {
-            upperCursor = upperRightCursor;
-            break;
-          }
+      rightCursor = upperCursor.right;
+      if (rightCursor) {
+        rightCursor = seekToNextSignificantToken(
+          rightCursor,
+          this.matcher?.preventSkipping
+        );
+        if (rightCursor) {
+          upperCursor = rightCursor;
+          break;
         }
       }
       upperCursor = upperCursor.up;
@@ -89,7 +92,7 @@ export class TreeMatcher<Ctx> extends AbstractMatcher<Ctx> {
       return undefined;
     }
 
-    let nextCursor = this.walkToNextNode(cursor);
+    let nextCursor = this.walkToNextSignificantNode(cursor);
     while (nextCursor) {
       const match = this.matcher.match({ cursor: nextCursor, context });
       if (match) {
@@ -97,7 +100,7 @@ export class TreeMatcher<Ctx> extends AbstractMatcher<Ctx> {
         return match;
       }
 
-      nextCursor = this.walkToNextNode(nextCursor);
+      nextCursor = this.walkToNextSignificantNode(nextCursor);
     }
 
     return undefined;
@@ -132,98 +135,13 @@ export class TreeMatcher<Ctx> extends AbstractMatcher<Ctx> {
       }
       context = this.postHandler(context, rootNode);
 
-      const cursor = checkpoint.cursor.right;
-      return cursor
-        ? { context, cursor }
-        : { context, cursor: checkpoint.cursor, endOfLevel: true };
+      const cursor =
+        rootNode.type === 'root-tree'
+          ? checkpoint.cursor
+          : seekRight(checkpoint.cursor);
+      return { context, cursor };
     }
 
     return null;
   }
 }
-
-/*
-
-export class TreeNodeWalkingMatcher<
-  Ctx,
-  T extends Tree
-> extends TreeNodeMatcher<Ctx> {
-  public readonly matcher: Matcher<Ctx>;
-  public readonly postHandler: TreeNodeMatcherHandler<Ctx>;
-
-  constructor(config: TreeNodeWalkingMatcherOptions<Ctx>) {
-    super(config);
-    this.matcher = config.matcher;
-    this.postHandler = coerceHandler<Ctx, Tree>(config.postHandler);
-  }
-
-  seekNextChild(checkpoint: Checkpoint<Ctx>): Checkpoint<Ctx> | null {
-    let nextCheckpoint = skipMinorTokens(checkpoint);
-    while (nextCheckpoint) {
-      const checkpoint = this.matcher.match(nextCheckpoint);
-      if (checkpoint) {
-        return checkpoint;
-      }
-
-      const nextCursor = nextCheckpoint?.cursor?.right;
-      nextCheckpoint = nextCursor
-        ? skipMinorTokens({
-            cursor: nextCursor,
-            context: nextCheckpoint.context,
-          })
-        : null;
-    }
-
-    return null;
-  }
-}
-
-export class TreeChildMatcher<Ctx> extends TreeNodeWalkingMatcher<Ctx, Tree> {
-  override match(checkpoint: Checkpoint<Ctx>): Checkpoint<Ctx> | null {
-    const treeMatch = super.match(checkpoint);
-    if (treeMatch) {
-      const { context } = treeMatch;
-      const cursor = checkpoint.cursor.down;
-      if (cursor && cursor.node) {
-        const childMatch = this.seekNextChild({ context, cursor });
-        if (childMatch) {
-          return { ...treeMatch, context: childMatch.context };
-        }
-      }
-    }
-    return null;
-  }
-}
-
-export class TreeChildrenMatcher<Ctx> extends TreeNodeWalkingMatcher<
-  Ctx,
-  Tree
-> {
-  override match(checkpoint: Checkpoint<Ctx>): Checkpoint<Ctx> | null {
-    const treeMatch = super.match(checkpoint);
-    if (treeMatch) {
-      let { context } = treeMatch;
-      let cursor = checkpoint.cursor.down;
-      while (cursor) {
-        const childMatch = this.seekNextChild({ context, cursor });
-        if (childMatch) {
-          context = childMatch.context;
-          if (!childMatch.endOfLevel) {
-            cursor = childMatch.cursor;
-          } else {
-            break;
-          }
-        } else {
-          break;
-        }
-      }
-
-      if (context !== treeMatch.context) {
-        return { ...treeMatch, context };
-      }
-    }
-    return null;
-  }
-}
-
-*/

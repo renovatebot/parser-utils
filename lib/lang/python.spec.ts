@@ -1,6 +1,4 @@
 import { loadInputTxt, loadOutputJson } from '../../test/test-utils';
-import { StringValueToken } from '../lexer/types';
-import * as q from '../query/builder';
 import { lang as pythonLang } from './python';
 import { createLang } from '.';
 

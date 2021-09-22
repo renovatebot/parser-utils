@@ -20,7 +20,7 @@ jobs:
         run: yarn --frozen-lockfile
 
       - name: Build package
-      - run: yarn -s build
+        run: yarn -s build
 
       - name: Check if version has been updated
         id: check

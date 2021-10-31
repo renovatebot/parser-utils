@@ -17,7 +17,7 @@ But the hardest part is to deal with dependencies described in particular progra
 One approach is to use regular expressions, which is very easy but doesn't scale well to cover all syntactic variations.
 For example, we want to treat string literals `'foobar'`, `"foobar"` and `"""foobar"""` as equivalent.
 
-With another approach, we may describe languages with tools like `PEG.js`, `nearley.js` or `parsimmon`.
+With another approach, we may describe languages with tools like [PEG.js](https://github.com/pegjs/pegjs) or [nearley.js](https://github.com/kach/nearley).
 Although these are great tools, the approach itself has downsides for our use-case:
 
 - We have to define and test complete grammars for each language, even if we're interested mostly in string literals, variable definitions and their scopes.
@@ -25,7 +25,8 @@ Although these are great tools, the approach itself has downsides for our use-ca
 - We still would need to deal with variety of language-specific AST tree formats, which may or may not share some common specifics.
 
 This library is an attempt to fill the gap between these two approaches.
-It leverages `moo` tokenizer library, organizes tokens into trees and helps to query them.
+It leverages [moo](https://github.com/no-context/moo) tokenizer library, organizes tokens into trees and helps to query them.
+It's API is inspired by [parsimmon](https://github.com/jneen/parsimmon), though operates on parsed tokens instead of raw source code.
 
 ## Goals
 

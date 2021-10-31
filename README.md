@@ -26,7 +26,7 @@ Although these are great tools, the approach itself has downsides for our use-ca
 
 This library is an attempt to fill the gap between these two approaches.
 It leverages [moo](https://github.com/no-context/moo) tokenizer library, organizes tokens into trees and helps to query them.
-The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), though operates on parsed tokens instead of raw source code.
+The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), though it operates on parsed tokens instead of raw source code.
 
 ## Goals
 

@@ -10,7 +10,7 @@ Code parsing library filling the gap between ad-hoc regular expressions and pars
 We are creating Renovate as a multi-language tool for keeping dependency versions up to date.
 While particular package managers are usually making use of their programming language, we needed some uniform way to deal with the variety of dependency description conventions.
 
-Some package managers just use relatively simple JSON format, like Node ecosystem does.
+Some package managers use the relatively simple JSON format, like Node.js for example.
 Others tools, mostly related to CI/CD world, stick to more elaborate YAML.
 But the hardest part is to deal with dependencies described in particular programming languages: for example, Gemfile and Podfile are written in Ruby, `build.gradle` uses Groovy, `sbt` leverages Scala, while `bazel` have created its own language Starlark.
 

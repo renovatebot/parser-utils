@@ -22,7 +22,7 @@ Although these are great tools, this approach has downsides for our use-case:
 
 - We have to define and test the complete grammar for each language, even if we're interested mostly in string literals, variable definitions and their scopes
 - Even small source errors lead to rejecting the whole file, while we want to skip the fragments that are misunderstood by the parser
-- We still would need to deal with variety of language-specific AST tree formats, which may or may not share some common specifics.
+- We still would need to deal with a variety of language-specific AST tree formats, which may or may not have things in common.
 
 The `parser-utils` library is an attempt to fill the gap between these two approaches.
 It leverages the [moo](https://github.com/no-context/moo) tokenizer library, organizes tokens into trees and helps to query them.
@@ -34,7 +34,7 @@ The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), th
 - Go much further than is possible with regular expressions.
 - Respect location info. Once something interesting is found, it can be located in the source test via offset info. Once something is written, it should not affect the whole document formatting.
 - Incorporate poorly recognized fragments into the output and continue parsing.
-- Expressive API helping to focus on syntactic structure, not the space or quote styles. When details are necessary, there is a way to specify them too.
+- Expressive API which helps you focus on syntactic structure, not the space or quote variations.
 - Allow to define a language of interest quickly. Provide definitions for popular languages out-of-the-box.
 
 ## Non-goals

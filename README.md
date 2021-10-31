@@ -8,10 +8,10 @@ Code parsing library filling the gap between ad-hoc regular expressions and pars
 ## Motivation
 
 We are creating Renovate as a multi-language tool for keeping dependency versions up to date.
-While particular package managers are usually making use of their programming language, we needed some uniform way to deal with the variety of dependency description conventions.
+While most package managers benefit from relying on the programming language they're written, we needed some uniform way to deal with the variety of dependency description conventions using only TypeScript.
 
 Some package managers use the relatively simple JSON format, like Node.js for example.
-Others tools, mostly related to CI/CD world, stick to more elaborate YAML.
+Other tools, mostly related to Devops, use the more elaborate YAML format.
 The trickiest thing is to deal with dependencies described by particular programming languages: for example, Gemfiles and Podfiles are written in Ruby, `build.gradle` files use Groovy, `sbt` leverages Scala, while `bazel` created its own language Starlark.
 
 One approach is to use regular expressions, which is very easy but doesn't scale well to cover all syntactic variations.

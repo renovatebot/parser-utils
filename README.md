@@ -25,8 +25,8 @@ Although these are great tools, this approach has downsides for our use-case:
 - We still would need to deal with a variety of language-specific AST tree formats, which may or may not have things in common.
 
 The `parser-utils` library is an attempt to fill the gap between the approaches mentioned above.
-We leverage the [moo](https://github.com/no-context/moo) tokenizer library which organizes tokens into trees and helps to query them.
-The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), though it operates on the parsed tokens instead of the raw source code.
+We leverage the [moo](https://github.com/no-context/moo) library to produce tokens, which we group into the tree available for your queries.
+The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), though it operates on the token level instead of the raw character sequence.
 
 ## Goals
 

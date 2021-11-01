@@ -42,17 +42,39 @@ The query API is inspired by [parsimmon](https://github.com/jneen/parsimmon), th
 - Catch all syntactic edge-cases
 - Compete with parsing tools with strict grammar definitions
 
-## Installation
+## Install
 
-Explain here how to install the package/library.
+```sh
+npm install @renovatebot/parser-utils
+```
 
-## Configuration
+or
 
-Explain here how to configure the package/libary.
+```sh
+yarn add @renovatebot/parser-utils
+```
 
-## Usage
+## Details
 
-Explain here how to use the package/library.
+The library is divided to several abstraction levels following from the lowest to the highest one:
+
+### [`lib/lexer`](https://github.com/renovatebot/parser-utils/tree/main/lib/lexer)
+
+Configures [moo](https://github.com/no-context/moo) tokenizer for specific language features such as:
+
+- Brackets: `()`, `{}`, `[]`, etc
+- Strings: `'foo'`, `"bar"`, `"""baz"""`, etc
+- Templates: `${foo}`, `{{bar}}`, `$(baz)`, etc
+- Single-line comments: `#...`, `//...`, etc
+- Multi-line comments: `/*...*/`, `(*...*)`, etc
+- Identifiers: `foo`, `Bar`, `_baz123`, etc
+- Line joins: if the line ends with `\`, the next one will be treated as its continuation
+
+You can refer to `LexerConfig` interface for more details. Also check out [usage example for Python](https://github.com/renovatebot/parser-utils/blob/main/lib/lang/python.ts).
+
+### [`lib/parser`](https://github.com/renovatebot/parser-utils/tree/main/lib/tree)
+
+This layer responsible for transforming token sequence to the nested tree with the tokens as leafs.
 
 ## Contributing
 

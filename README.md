@@ -13,14 +13,8 @@ While most package managers can rely on the programming language they're written
 Some package managers use the relatively simple JSON format, like Node.js for example.
 Other tools, mostly related to DevOps, use the more elaborate YAML format.
 The trickiest thing is to deal with dependencies described by particular programming languages: for example, Gemfiles and Podfiles are written in Ruby, `build.gradle` files use Groovy, `sbt` leverages Scala, while `bazel` created its own language Starlark.
-
-### Approach number one: use regular expressions
-
 One approach is to use regular expressions, which is very easy but doesn't scale well to cover all syntactic variations.
 For example, we want to treat string literals `'foobar'`, `"foobar"` and `"""foobar"""` as equivalent.
-
-### Approach number two: use other tools
-
 Another approach could be that we describe languages with tools like [PEG.js](https://github.com/pegjs/pegjs) or [nearley.js](https://github.com/kach/nearley).
 Although these are great tools, this approach has downsides for our use-case:
 
@@ -28,7 +22,6 @@ Although these are great tools, this approach has downsides for our use-case:
 - Even small source errors lead to rejecting the whole file, while we want to skip the fragments that are misunderstood by the parser
 - We still would need to deal with a variety of language-specific AST tree formats, which may or may not have things in common.
 
-### Our chosen approach
 
 The `parser-utils` library is an attempt to fill the gap between the approaches mentioned above.
 We leverage the [moo](https://github.com/no-context/moo) tokenizer library which organizes tokens into trees and helps to query them.

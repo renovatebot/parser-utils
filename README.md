@@ -75,6 +75,40 @@ You can refer to `LexerConfig` interface for more details. Also check out [usage
 ### [`lib/parser`](https://github.com/renovatebot/parser-utils/tree/main/lib/tree)
 
 This layer responsible for transforming token sequence to the nested tree with the tokens as leafs.
+Internally, we're using functional [zipper](<https://en.wikipedia.org/wiki/Zipper_(data_structure)>) data structure to perform queries on the tree.
+
+### [`lib/query`](https://github.com/renovatebot/parser-utils/tree/main/lib/query)
+
+To understand `parser-utils` queries, it's useful to keep in mind the principle of how regular expressions work.
+Each query represents sequence of adjacent tokens and tree elements.
+
+For example, consider following query:
+
+```ts
+q.num('2').op('+').num('2').op('=').num('4');
+```
+
+It will match on the following fragments `2 + 2 = 4` or `2+2=4`, but won't match on `2+2==4` nor `4=2+2`.
+
+Once brackets are defined, their inner contents will be wrapped into a tree node.
+It's possible to query tree nodes:
+
+```ts
+q.tree({
+  search: q.num('2').op('+').num('2'),
+})
+  .op('=')
+  .num('4');
+```
+
+The above query will match these strings:
+
+- `(2 + 2) = 4`
+- `[2 + 2] = 4`
+- `(1 + 2 + 2 - 1) = 4`
+- `(1 + (2 + 2) - 1) = 4`
+
+It won't match `2 + 2 = 4` because there is no any nesting.
 
 ## Contributing
 

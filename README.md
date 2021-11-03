@@ -75,7 +75,7 @@ Also check out [our usage example for Python](https://github.com/renovatebot/par
 
 ### [`lib/parser`](https://github.com/renovatebot/parser-utils/tree/main/lib/tree)
 
-This layer is responsible for transforming the token sequence to the nested tree with the tokens as leafs. tree with the tokens as leafs.
+This layer is responsible for transforming the token sequence to the nested tree with the tokens as leafs.
 Internally, we're using functional [zipper](<https://en.wikipedia.org/wiki/Zipper_(data_structure)>) data structure to perform queries on the tree.
 
 ### [`lib/query`](https://github.com/renovatebot/parser-utils/tree/main/lib/query)

@@ -56,11 +56,11 @@ yarn add @renovatebot/parser-utils
 
 ## Details
 
-The library is divided to several abstraction levels following from the lowest to the highest one:
+The library is divided into multiple levels of abstraction, from the lowest to the highest one:
 
 ### [`lib/lexer`](https://github.com/renovatebot/parser-utils/tree/main/lib/lexer)
 
-Configures [moo](https://github.com/no-context/moo) tokenizer for specific language features such as:
+Configures the [moo](https://github.com/no-context/moo) tokenizer for specific language features such as:
 
 - Brackets: `()`, `{}`, `[]`, etc
 - Strings: `'foo'`, `"bar"`, `"""baz"""`, etc
@@ -70,11 +70,12 @@ Configures [moo](https://github.com/no-context/moo) tokenizer for specific langu
 - Identifiers: `foo`, `Bar`, `_baz123`, etc
 - Line joins: if the line ends with `\`, the next one will be treated as its continuation
 
-You can refer to `LexerConfig` interface for more details. Also check out [usage example for Python](https://github.com/renovatebot/parser-utils/blob/main/lib/lang/python.ts).
+Refer to the `LexerConfig` interface for more details.
+Also check out [our usage example for Python](https://github.com/renovatebot/parser-utils/blob/main/lib/lang/python.ts).
 
 ### [`lib/parser`](https://github.com/renovatebot/parser-utils/tree/main/lib/tree)
 
-This layer responsible for transforming token sequence to the nested tree with the tokens as leafs.
+This layer is responsible for transforming the token sequence to the nested tree with the tokens as leafs. tree with the tokens as leafs.
 Internally, we're using functional [zipper](<https://en.wikipedia.org/wiki/Zipper_(data_structure)>) data structure to perform queries on the tree.
 
 ### [`lib/query`](https://github.com/renovatebot/parser-utils/tree/main/lib/query)

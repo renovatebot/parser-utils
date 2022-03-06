@@ -31,7 +31,7 @@ jobs:
 
       - name: Check if version has been updated
         id: check
-        uses: EndBug/version-check@v2
+        uses: EndBug/version-check@2512d2ac9130c439e045344eb6603a81f4b0f915 # tag=v2.1.0
 
         with:
           diff-search: true
